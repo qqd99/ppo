@@ -1,0 +1,102 @@
+import time
+import tensorflow as tf
+import numpy as np
+from PIL import ImageGrab
+from pynput import keyboard, mouse
+import os
+import pickle
+
+class Buffer:
+    def __init__(self, maxlen=1000, save_dir="."):
+        self.obs = tf.TensorArray(dtype=tf.uint8, size=0, dynamic_size=True, element_shape=(256, 256, 3))
+        self.act = tf.TensorArray(dtype=tf.string, size=0, dynamic_size=True)
+        self.save_dir = save_dir
+        self.index = 0
+        self.maxlen = maxlen
+
+        # Create the save directory if it doesn't exist
+        os.makedirs(self.save_dir, exist_ok=True)
+        
+    def append(self, observation, action):
+        self.obs = self.obs.write(self.obs.size(), observation)
+        self.act = self.act.write(self.act.size(), action)
+        print(self.act.size())
+        if self.act.size() >= self.maxlen:
+            self.save_and_clear()
+
+    def save_and_clear(self):
+        file_path = os.path.join(self.save_dir, f"traj_{str(self.index)}.pkl")
+        obs = self.obs.stack()
+        acts = self.act.stack()
+        data = {'observations': obs.numpy(), 'actions': acts.numpy()}
+        with open(file_path, "wb") as f:
+            pickle.dump(data, f)
+            print(file_path)
+
+        self.obs = tf.TensorArray(dtype=tf.uint8, size=0, dynamic_size=True, element_shape=(256, 256, 3))
+        self.act = tf.TensorArray(dtype=tf.string, size=0, dynamic_size=True)
+        self.index += 1
+        
+    def get(self):
+        return self.obs.stack().numpy(), self.act.stack().numpy()
+
+# Capture the screen
+def capture_screen():
+    screenshot = ImageGrab.grab(bbox=(550, 290, 806, 546))
+    return np.array(screenshot)
+
+def on_key_press(key):
+    mouse_pos = mouse.Controller().position
+    buffer.append(capture_screen(), key.char if hasattr(key, 'char') else key.name)
+
+def on_click(x, y, button, pressed):
+    if button == mouse.Button.left:
+        buffer.append(capture_screen(), 'left click')
+    elif button == mouse.Button.right:
+        buffer.append(capture_screen(), 'right click')
+
+def on_move(x, y):
+    global last_x, last_y, i
+    v = ''
+    h = ''
+    i += 1
+    if i > 20:
+        i = 0
+        if last_x is not None and last_y is not None:
+            delta_x = x - last_x
+            delta_y = y - last_y
+
+            if delta_x > 0:
+                v = 'right'
+            elif delta_x < 0:
+                v = 'left'
+
+            if delta_y > 0:
+                h = 'down'
+            elif delta_y < 0:
+                h = 'up'
+
+        buffer.append(capture_screen(), v + h)
+    last_x, last_y = x, y
+    
+
+# Initialize the last known mouse coordinates as None
+last_x, last_y = None, None
+buffer = Buffer()
+i = 0
+for t in range(4):
+    print(t)
+    time.sleep(1)
+# Create mouse and keyboard listeners
+mouse_listener = mouse.Listener(on_move=on_move, on_click=on_click)
+keyboard_listener = keyboard.Listener(on_press=on_key_press)
+
+# Start the listeners
+mouse_listener.start()
+keyboard_listener.start()
+
+time.sleep(0.1)
+
+# Wait for the listeners to finish
+mouse_listener.join()
+keyboard_listener.join()
