@@ -1,0 +1,19 @@
+#Process of creating new neurons:
+Building Blocks: Neural stem cells are the builders making new neurons.
+Division: When the builders start working, they divide into two. One stays as a builder for later, and the other becomes a new type of cell called a neuroblast.
+Finding a Home: The neuroblasts go on a journey to find their place in the brain. They follow maps made of special chemicals that guide them to where they need to be.
+Becoming Neurons: Once the neuroblasts reach their destination, they transform into real neurons. Neurons are like messengers that send and receive signals in the brain.
+Connecting: The newly formed neurons grow long arms called axons and branches called dendrites. These help them connect with other neurons and form a network of communication.
+Ready to Work: Finally, the new neurons are ready to start their job in the brain. They join the other neurons and work together to help us think, learn, and do all sorts of amazing things.
+So, just like builders constructing a building, neural stem cells divide and transform into neuroblasts. These neuroblasts then find their place in the brain, become neurons, and connect with other neurons to create a complex network. This process of creating new neurons helps the brain grow and function properly.
+
+#Different types of neural stem cells:
+Radial Glial Cells: Imagine these cells as the "architects" of the brain. They provide a framework for other cells to grow and move during brain development, helping to shape the brain's structure.
+Subventricular Zone (SVZ) Stem Cells: These cells are like "builders" that create new neurons in a special area called the subventricular zone. These new neurons then travel to the olfactory bulb, which helps us smell things.
+Hippocampal Neural Stem Cells: Think of these cells as "memory makers." They reside in a brain region called the hippocampus, which is important for learning and memory. These cells generate new neurons that support memory functions.
+Subgranular Zone (SGZ) Stem Cells: These cells are like "memory refreshers" that exist in the dentate gyrus, another part of the hippocampus. They create new neurons that help with memory and learning processes.
+Each type of neural stem cell has its own special job in the brain. They create new cells, help shape the brain's structure, support our sense of smell, and contribute to our ability to learn and remember things.
+
+#Todo task:
+Make a list of builders cell that contain framework for other model to develop (
+Encode memory - Each memory is unique, when you encounter or recall partial cues or elements of a memory, the hippocampus helps to reconstruct the complete memory by filling in missing details based on the stored information.
